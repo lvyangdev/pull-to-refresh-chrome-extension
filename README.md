@@ -8,9 +8,6 @@ Allows quick and easy page refresh, in all kind of environments and devices:
 - Two fingers scroll in laptop track pads
 - Mouse Wheel scroll in mouse based environments
 
-Available in:
-
-https://chrome.google.com/webstore/detail/pull-to-refresh/opiolhkaggfkacemkinlcbidbidfpenl
 
 ## Building
 
