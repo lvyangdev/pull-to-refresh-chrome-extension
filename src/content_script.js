@@ -7,6 +7,8 @@
  */
 
 document.addEventListener('DOMContentLoaded', function(event) {
+  let scrolledIsTop = true;
+  let scrollTimeout = null;
   // According to the standard if overscrollBehaviorY CSS property is set
   // to contain, no page reload should be performed on overscroll
   if (getComputedStyle(document.body).overscrollBehaviorY === 'contain') {
@@ -120,9 +122,19 @@ document.addEventListener('DOMContentLoaded', function(event) {
         return gestures.DOMElement.hasAttribute('reloading_chrome_ext')
       },
       scrollEventHandler: function(e) {
-        //console.log(e)
-        // if direction is down, cancel reload event progress
-        if (gestures.getDirection(e) === 'down' || gestures.isReloading()) {
+        clearTimeout(scrollTimeout)
+        if (!scrolledIsTop && gestures.isOverscroll(document.body)){
+          scrollTimeout = setTimeout(function() {
+            if(gestures.isOverscroll(document.body)){
+              scrolledIsTop = true
+            }
+          }, 50)
+        }
+        if(!gestures.isOverscroll(document.body)) {
+          gestures.timeoutCountdown = 0
+          scrolledIsTop = false
+        }
+        if (!scrolledIsTop || gestures.isReloading() || gestures.getDirection(e) !== 'up' ) {
           gestures.timeoutCountdown = 0
           return false
         }
